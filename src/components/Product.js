@@ -1,4 +1,3 @@
-// Code Product Component Here
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,19 +9,29 @@ import PropTypes from 'prop-types';
         <p>{this.props.producer}</p>
         <p>{this.props.hasWatermark}</p>
         <p>{this.props.color}</p>
-        <p>{this.props.weigh}</p>
+        <p>{this.props.weight}</p>
       </div>
     );
   }
 }
 
+
+
 Product.defaultProps = {
   hasWatermark: false,
 }
 
-Product.PropTypes = {
+Product.propTypes = {
   name: PropTypes.string.isRequired,
   producer: PropTypes.string,
-  hasWatermark: PropTypes.boolean,
-  color: PropTypes.string
+  hasWatermark: PropTypes.bool,
+  color: PropTypes.oneOf(['white', 'eggshell-white', 'salmon']).isRequired,
+  weight: function(props, propName, componentName){
+    let weight = props[propName];
+    if (weight == undefined){
+        return new Error ('Must include wight');
+    }
+    return weight >= 80 && weight <= 300 ? null : new Error("must be within the range!")
+
+  }
 }
